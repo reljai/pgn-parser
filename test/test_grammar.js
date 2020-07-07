@@ -155,4 +155,15 @@ describe('grammar', () => {
         results[0].moves[0].comments[1].commands[0].key.should.be.eql('csl');
         results[0].moves[0].comments[1].commands[0].values.should.be.eql(['Gd5', 'Gf5']);
     });
+
+    it('should parse comment with commands followed by text', () => {
+        const results = parser.parse('1. e4 { [%csl Gd5,Gf5][%clk 1:55:21] some text } *');
+        results[0].moves.should.have.lengthOf(1);
+        results[0].moves[0].comments.should.have.lengthOf(1);
+        results[0].moves[0].comments[0].text.should.be.eql(' some text ');
+        results[0].moves[0].comments[0].commands.should.have.lengthOf(2);
+        results[0].moves[0].comments[0].commands[0].key.should.be.eql('csl');
+        results[0].moves[0].comments[0].commands[0].values.should.be.eql(['Gd5', 'Gf5']);
+        results[0].moves[0].comments[0].commands[1].values.should.be.eql(['1:55:21']);
+    });
 });
