@@ -87,15 +87,16 @@ continuation = period period period
 disambiguation = (rank file) / rank / file
 
 multi_line_comment_chars = [^}]
-multi_line_comment = "{" cs:command* cc:multi_line_comment_chars* "}" {return {commands:cs, text:cc.join('')};}
+multi_line_comment = "{" cc:multi_line_comment_chars* "}" {return {text:cc.join('')};}
 single_line_comment_chars = [^\n]
 single_line_comment = ";" cc:single_line_comment_chars* newline {return {text:cc.join('')};}
 command_comment = '{' whitespace* cs:command+ whitespace* '}' {return {commands: cs};}
+command_comment_with_text = '{' whitespace* cs:command+ ws:whitespace* cc:multi_line_comment_chars+ '}' {return {commands: cs, text:ws.join('') + cc.join('')};}
 command = whitespace* '[%' key:command_key whitespace+ values:command_values ']' {return {key, values};}
 command_key = k:[a-zA-Z]+ {return k.join('');}
 command_value = v:[^,\]]+ {return v.join('');}
 command_values = first:command_value rest:(',' command_value)* {return rest ? [first, ...flatten(rest).filter(function (cv) { return cv !== ','})] : [first];}
-comment = c:(command_comment / multi_line_comment / single_line_comment) {return c;}
+comment = c:(command_comment_with_text / command_comment / multi_line_comment / single_line_comment) {return c;}
 comments = (whitespace* cs:comment {return cs;})+
 
 pawn_half_move = (r:rank c:capture)? square promotion?

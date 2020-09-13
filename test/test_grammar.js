@@ -151,6 +151,7 @@ describe('grammar', () => {
         results[0].moves.should.have.lengthOf(1);
         results[0].moves[0].comments.should.have.lengthOf(2);
         results[0].moves[0].comments[0].text.should.be.eql(' this is a comment ');
+        should.equal(results[0].moves[0].comments[1].text, undefined);
         results[0].moves[0].comments[1].commands.should.have.lengthOf(2);
         results[0].moves[0].comments[1].commands[0].key.should.be.eql('csl');
         results[0].moves[0].comments[1].commands[0].values.should.be.eql(['Gd5', 'Gf5']);
