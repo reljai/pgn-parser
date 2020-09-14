@@ -144,6 +144,15 @@ describe('grammar', () => {
     it('should support multiple comments between half-moves', () => {
         const results = parser.parse('1. e4 { this is a comment } { [%csl Gd5,Gf5][%cal Ge4d5,Ge4f5] } *');
         results[0].moves.should.have.lengthOf(1);
+        results[0].moves[0].comments.should.have.lengthOf(2);
+    });
+
+    it('should not return empty commands for multi line commments', () => {
+        const results = parser.parse('1. e4 { this is a comment } *');
+        results[0].moves.should.have.lengthOf(1);
+        results[0].moves[0].comments.should.have.lengthOf(1);
+        results[0].moves[0].comments[0].text.should.be.eql(' this is a comment ');
+        should.equal(results[0].moves[0].comments[0].commands, undefined);
     });
 
     it('should fully parse command commments', () => {
