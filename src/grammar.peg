@@ -21,7 +21,7 @@
         if (move) m.move = move;
         if (nags && nags.length) m.nags = nags;
         if (ravs && ravs.length) m.ravs = ravs;
-        if (comments) m.comments = comments;
+        if (comments && comments.length) m.comments = comments;
         return m;
     }
     function make_rav(moves, result) {
