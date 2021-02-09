@@ -81,6 +81,11 @@ describe('grammar', () => {
         result.moves.should.have.lengthOf(4);
     });
 
+    it('should allow null move', () => {
+        const [result] = parser.parse('1. e4 e5 2. -- Kf6 *');
+        result.moves.should.have.lengthOf(4);
+    });
+
     it('should allow RAV', () => {
         const [result] = parser.parse('1. e4 (1. d4 d5 ) e5 2. d4 (2. Nf3 Nc6 ) exd4 *');
         result.moves.should.have.lengthOf(4);
